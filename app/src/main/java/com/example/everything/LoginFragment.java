@@ -1,5 +1,6 @@
 package com.example.everything;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,8 +30,10 @@ public class LoginFragment extends Fragment {
                 return;
             }
 
-            // TODO: call API
-            Toast.makeText(getContext(), "Logging in...", Toast.LENGTH_SHORT).show();
+            Intent intent=new Intent(getActivity(), MainActivity.class);
+            //to not return to the login screen when pressing back
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
         });
 
         return view;

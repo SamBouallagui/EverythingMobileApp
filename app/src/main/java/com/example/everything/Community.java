@@ -1,6 +1,8 @@
 package com.example.everything;
 
-public class Community {
+import java.io.Serializable;
+//serializable to pass data as bytes automatically between activities
+public class Community implements Serializable {
     private String id;
     private String name;
     private String category;

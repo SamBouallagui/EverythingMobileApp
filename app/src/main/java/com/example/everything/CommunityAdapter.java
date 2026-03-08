@@ -15,7 +15,6 @@ public class CommunityAdapter extends RecyclerView.Adapter<CommunityAdapter.Comm
     private Context context;
     private List<Community> communityList;
 
-    //community click tracking
     public interface OnCommunityClickListener{
         void onCommunityClick(Community community);
         void onJoinClick(Community community, int position);

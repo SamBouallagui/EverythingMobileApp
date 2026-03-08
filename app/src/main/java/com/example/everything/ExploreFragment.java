@@ -1,5 +1,6 @@
 package com.example.everything;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -32,7 +33,9 @@ public class ExploreFragment extends Fragment {
         adapter=new CommunityAdapter(getContext(), filteredList, new CommunityAdapter.OnCommunityClickListener() {
             @Override
             public void onCommunityClick(Community community) {
-                Toast.makeText(getContext(),"Opening"+community.getName(),Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(),CommunityDetailActivity.class);
+                intent.putExtra("community",community);
+                startActivity(intent);
             }
 
             @Override

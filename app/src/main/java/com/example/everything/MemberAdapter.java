@@ -1,6 +1,7 @@
 package com.example.everything;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.MemberView
     private Context context;
     private List<Member> memberList;
     private String currentUserRole;
+    private String currentUserId;
     public interface OnMemberClickListener{
         void onManageClick(Member member,int position);
     }
@@ -29,6 +31,15 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.MemberView
         this.memberList=memberList;
         this.currentUserRole=currentUserRole;
         this.listener=listener;
+        
+        // Get current user ID from SharedPreferences
+        SharedPreferences prefs = context.getSharedPreferences("EverythingSession", Context.MODE_PRIVATE);
+        currentUserId = String.valueOf(prefs.getInt("userId", 0));
+    }
+    
+    public void updateCurrentUserRole(String role) {
+        this.currentUserRole = role;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -54,10 +65,11 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.MemberView
         } else {
             holder.tvRoleBadge.setVisibility(View.GONE);
         }
-        //admin and mod can manage users, admin can manage mod, admin cant manage admin,mod cant manage admin
-        boolean canManage = (currentUserRole.equals("admin") ||
-                currentUserRole.equals("moderator")) &&
-                !role.equals("admin");
+        // Only admins can manage member roles, but not themselves or other admins
+        boolean isCurrentUser = currentUserId.equals(member.getId());
+        boolean canManage = currentUserRole.equals("admin") && 
+                         !role.equals("admin") && 
+                         !isCurrentUser;
 
         if (canManage) {
             holder.btnManage.setVisibility(View.VISIBLE);

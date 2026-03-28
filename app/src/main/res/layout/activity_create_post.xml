@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F8F9FA">
+
+    <!-- Toolbar -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/ToolbarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:title="New Post"
+        android:elevation="4dp"/>
+
+    <!-- Community Info -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#FFFFFF"
+        android:padding="16dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="8dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="2dp">
+
+        <TextView
+            android:id="@+id/tvPostingIn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Posting in: Community Name"
+            android:textColor="#7B61FF"
+            android:textSize="14sp"
+            android:textStyle="bold"/>
+
+    </LinearLayout>
+
+    <!-- Post Content Input -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_margin="16dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:hintEnabled="false"
+        app:boxCornerRadiusTopStart="12dp"
+        app:boxCornerRadiusTopEnd="12dp"
+        app:boxCornerRadiusBottomStart="12dp"
+        app:boxCornerRadiusBottomEnd="12dp"
+        app:boxStrokeColor="#7B61FF"
+        app:boxStrokeWidth="2dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etPostContent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="What's on your mind?"
+            android:textColor="#1A1A1A"
+            android:textColorHint="#6B7280"
+            android:gravity="top"
+            android:inputType="textMultiLine"
+            android:background="#FFFFFF"
+            android:padding="16dp"
+            android:scrollbars="vertical"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Bottom Actions -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="#FFFFFF"
+        android:padding="16dp"
+        android:elevation="4dp">
+
+        <!-- Character Count -->
+        <TextView
+            android:id="@+id/CharCount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="0 / 500"
+            android:textColor="#6B7280"
+            android:textSize="13sp"/>
+
+        <!-- Post Button -->
+        <Button
+            android:id="@+id/SubmitPost"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="Post"
+            android:textSize="14sp"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#7B61FF"
+            app:cornerRadius="20dp"
+            android:paddingHorizontal="24dp"/>
+
+    </LinearLayout>
+
+</LinearLayout>

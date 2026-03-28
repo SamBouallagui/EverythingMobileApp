@@ -27,4 +27,8 @@ public class AuthActivity extends AppCompatActivity {
             }
         }).attach();
     }
+    public void switchToLogin() {
+        ViewPager2 viewPager = findViewById(R.id.viewPager);
+        viewPager.setCurrentItem(0);
+    }
 }

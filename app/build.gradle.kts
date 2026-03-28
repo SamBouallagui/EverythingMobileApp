@@ -45,6 +45,7 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.activity:activity:1.8.0")
     implementation("androidx.recyclerview:recyclerview:1.3.2")
+    implementation("com.squareup.retrofit2:converter-scalars:2.9.0")
 
     // Retrofit, for API's
     implementation("com.squareup.retrofit2:retrofit:2.9.0")

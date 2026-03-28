@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
@@ -37,7 +38,8 @@ public class CommunityAdapter extends RecyclerView.Adapter<CommunityAdapter.Comm
     public void onBindViewHolder(@NonNull CommunityViewHolder holder, int postion){
         Community community=communityList.get(postion);
         holder.tvName.setText(community.getName());
-        holder.tvCategory.setText(community.getCategory());
+        String category = community.getCategory();
+        holder.tvCategory.setText(category != null ? category : "General");
         holder.tvDescription.setText(community.getDescription());
         holder.tvMemberCount.setText(community.getMemberCount()+" members");
         if(community.isJoined()){
@@ -48,7 +50,13 @@ public class CommunityAdapter extends RecyclerView.Adapter<CommunityAdapter.Comm
             holder.btnJoin.setBackgroundTintList(android.content.res.ColorStateList.valueOf(android.graphics.Color.parseColor("#7B61FF")));
 
         }
-        holder.itemView.setOnClickListener(v -> listener.onCommunityClick(community));
+        holder.itemView.setOnClickListener(v -> {
+            if (community.isJoined()) {
+                listener.onCommunityClick(community);
+            } else {
+                Toast.makeText(context, "Join this community to view details", Toast.LENGTH_SHORT).show();
+            }
+        });
         holder.btnJoin.setOnClickListener(v -> listener.onJoinClick(community,holder.getAdapterPosition()));
     }
     public void updateItem(int postion){

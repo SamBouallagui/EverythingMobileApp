@@ -14,13 +14,19 @@ public class SplashActivity extends AppCompatActivity {
         //Connect to xml file
         setContentView(R.layout.activity_splash);
         //
-        new Handler(Looper.getMainLooper()).postDelayed(() ->{
-            Intent intent = new Intent(SplashActivity.this, AuthActivity.class);
-            //Navigate to AuthActivity
-            startActivity(intent);
-            //Destroy splashActivity from memory
-            finish();
+        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+            SessionManager session = new SessionManager(SplashActivity.this);
 
-        },2000);
+            Intent intent;
+            if (session.isLoggedIn()) {
+                // user already logged in, skip auth
+                intent = new Intent(SplashActivity.this, MainActivity.class);
+            } else {
+                //navigate to auth
+                intent = new Intent(SplashActivity.this, AuthActivity.class);
+            }
+            startActivity(intent);
+            finish();
+        }, 2000);
     }
 }

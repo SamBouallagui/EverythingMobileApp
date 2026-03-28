@@ -5,21 +5,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#1A1A2E">
-    <!--FrameLayout for the fragment screens-->
+    android:background="#FFFFFF">
+    
+    <!-- Conteneur pour tous les écrans de fragments (Home, Explore, Profile) -->
     <FrameLayout
         android:id="@+id/fragmentContainer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"/>
 
+    <!-- Barre de navigation inférieure pour basculer entre les sections principales -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#16213E"
-        app:itemIconTint="#AAAAAA"
-        app:itemTextColor="#AAAAAA"
+        android:background="#F5F5F5"
+        app:itemIconTint="#000000"
+        app:itemTextColor="#000000"
         app:menu="@menu/bottom_nav_menu"/>
 
 </LinearLayout>

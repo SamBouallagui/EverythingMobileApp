@@ -1,89 +1,157 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--children can communicate-->
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="#1A1A2E" android:layout_height="match_parent"
-    android:layout_width="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F8F9FA">
+
+    <!-- App Bar with Community Info -->
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/appBarLayout"
-        android:background="#16213E">
+        android:background="#FFFFFF"
+        app:elevation="8dp">
+
+        <!-- Toolbar -->
         <androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="#16213E"
             android:id="@+id/toolbar"
-            app:titleTextColor="#FFFFFF"/>
+            style="@style/ToolbarStyle"
+            app:titleTextColor="#1A1A1A"/>
+
+        <!-- Community Details Card -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="20dp">
+
+            <!-- Category Badge -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/tvDetailCategory"
-                android:text="Catrgory"
+                android:text="Category"
                 android:textColor="#7B61FF"
-                android:textSize="12sp"/>
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:background="#E8EAF6"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="4dp"/>
+
+            <!-- Community Name (if needed) -->
+            <TextView
+                android:id="@+id/tvDetailName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Community Name"
+                android:textColor="#1A1A1A"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginTop="8dp"
+                android:maxLines="1"
+                android:ellipsize="end"/>
+
+            <!-- Description -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/tvDetailDescription"
-                android:text="Description"
-                android:textColor="#CCCCCC"
-                android:textSize="13sp"
-                android:layout_marginTop="4dp"/>
+                android:text="Community description goes here"
+                android:textColor="#4B5563"
+                android:textSize="14sp"
+                android:layout_marginTop="12dp"
+                android:lineSpacingMultiplier="1.3"/>
+
+            <!-- Stats and Join Section -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:layout_marginTop="8dp">
+                android:layout_marginTop="16dp">
 
-                <TextView
+                <!-- Member Count with Icon -->
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:id="@+id/tvDetailMemberCount"
                     android:layout_weight="1"
-                    android:text="0 members"
-                    android:textColor="#AAAAAA"
-                    android:textSize="12sp"/>
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:src="@android:drawable/ic_menu_myplaces"
+                        android:backgroundTint="#6B7280"
+                        android:layout_marginEnd="6dp"/>
+
+                    <TextView
+                        android:id="@+id/tvDetailMemberCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0 members"
+                        android:textColor="#6B7280"
+                        android:textSize="13sp"/>
+
+                </LinearLayout>
+
+                <!-- Join Button -->
                 <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:id="@+id/btnDetailJoin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
                     android:text="Join"
-                    android:textSize="12sp"
-                    android:backgroundTint="#7B61FF"/>
+                    android:textSize="14sp"
+                    android:textColor="#FFFFFF"
+                    android:backgroundTint="#7B61FF"
+                    app:cornerRadius="20dp"
+                    android:paddingHorizontal="24dp"/>
+
             </LinearLayout>
+
         </LinearLayout>
+
+        <!-- Tabs -->
         <com.google.android.material.tabs.TabLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/tabLayout"
-            android:background="#16213E"
-            app:tabTextColor="#AAAAAA"
-            app:tabSelectedTextColor="#FFFFFF"
-            app:tabIndicatorColor="#7B61FF"/>
+            android:background="#FFFFFF"
+            android:paddingTop="8dp"
+            app:tabTextColor="#6B7280"
+            app:tabSelectedTextColor="#7B61FF"
+            app:tabIndicatorColor="#7B61FF"
+            app:tabTextAppearance="@style/TextAppearance.Design.Tab"
+            app:tabGravity="center"/>
+
     </com.google.android.material.appbar.AppBarLayout>
-    <!--puts viewpager2 under appBar automatically using layout_behaviour-->
+
+    <!-- Content ViewPager -->
     <androidx.viewpager2.widget.ViewPager2
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/viewPager"
+        android:background="#FFFFFF"
+        android:layout_marginTop="8dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+    <!-- Floating Action Button -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabCreatePost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
+        android:layout_margin="20dp"
         android:src="@android:drawable/ic_input_add"
         app:backgroundTint="#7B61FF"
+        app:tint="#FFFFFF"
+        app:elevation="8dp"
         android:visibility="gone"/>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 

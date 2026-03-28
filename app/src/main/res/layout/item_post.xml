@@ -4,11 +4,11 @@
     android:layout_height="wrap_content"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginHorizontal="16dp"
-    android:layout_marginVertical="8dp"
-    app:cardBackgroundColor="#16213E"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="4dp">
+    android:layout_marginVertical="12dp"
+    android:layout_marginHorizontal="12dp"
+    app:cardBackgroundColor="#FFFFFF"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="8dp">
     
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,22 +16,23 @@
         android:orientation="vertical"
         android:padding="16dp">
         
+        <!-- Section en-tête avec infos auteur et actions -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical">
 
-            <!-- author avatar -->
+            <!-- Photo de profil de l'auteur -->
             <ImageView
                 android:id="@+id/ivAuthorAvatar"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:background="#2A2A4A"
+                android:background="#F0F0F0"
                 android:src="@android:drawable/ic_menu_myplaces"
                 android:scaleType="centerCrop"/>
 
-            <!-- author name + role badge -->
+            <!-- Nom de l'auteur et badge de rôle -->
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -50,79 +51,95 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Author Name"
-                        android:textColor="#FFFFFF"
+                        android:textColor="#000000"
                         android:textSize="14sp"
                         android:textStyle="bold"/>
 
-                    <!-- role badge, only visible for mod/admin -->
+                    <!-- Badge de rôle pour les modérateurs et admins -->
                     <TextView
                         android:id="@+id/tvRoleBadge"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="6dp"
+                        android:layout_marginHorizontal="16dp"
                         android:paddingHorizontal="6dp"
                         android:paddingVertical="2dp"
                         android:text="MOD"
                         android:textColor="#FFFFFF"
                         android:textSize="10sp"
-                        android:background="#7B61FF"
+                        android:backgroundTint="#7B61FF"
                         android:visibility="gone"/>
 
                 </LinearLayout>
 
+                <!-- Horodatage du post -->
                 <TextView
                     android:id="@+id/tvTimeAgo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="2 hours ago"
-                    android:textColor="#AAAAAA"
+                    android:textColor="#000000"
                     android:textSize="11sp"
                     android:layout_marginTop="2dp"/>
 
             </LinearLayout>
 
+            <!-- Bouton supprimer - seulement visible pour l'auteur du post -->
+            <ImageButton
+                android:id="@+id/btnDeletePost"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@android:drawable/ic_menu_delete"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:visibility="gone"
+                android:contentDescription="Delete post"
+                android:tint="#FF6B6B"/>
+
         </LinearLayout>
 
-        <!-- post content avec interligne 30% -->
+        <!-- Texte du contenu principal du post -->
         <TextView
             android:id="@+id/tvPostContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Post content goes here"
-            android:textColor="#FFFFFF"
+            android:textColor="#000000"
             android:textSize="14sp"
             android:layout_marginTop="12dp"
-            android:lineSpacingMultiplier="1.3"/>
+            android:lineSpacingMultiplier="1.2"/>
 
-        <!-- ligne division-->
+        <!-- Ligne de séparation -->
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#2A2A4A"
             android:layout_marginTop="12dp"/>
 
-        <!-- like + comment buttons -->
+        <!-- Boutons d'action pour like et commentaire -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="8dp">
+            android:layout_marginBottom="8dp">
 
             <Button
                 android:id="@+id/btnLike"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="♥ 0"
-                android:textColor="#AAAAAA"
+                android:textColor="#6B7280"
                 android:backgroundTint="@android:color/transparent"
-                android:textSize="13sp"/>
+                android:textSize="13sp"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="6dp"
+                android:layout_marginEnd="8dp"/>
 
             <Button
                 android:id="@+id/btnComment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="💬 0"
-                android:textColor="#AAAAAA"
+                android:textColor="#6B7280"
                 android:backgroundTint="@android:color/transparent"
                 android:textSize="13sp"
                 android:layout_marginStart="8dp"/>

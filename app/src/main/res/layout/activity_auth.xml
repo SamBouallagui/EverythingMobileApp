@@ -5,26 +5,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#1A1A2E">
+    android:background="#FFFFFF">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/everything"
-        android:textColor="#FFFFFF"
-        android:textSize="32sp"
+        android:textColor="#000000"
+        android:layout_margin="24dp"
+        android:padding="24dp"
+        android:textSize="24sp"
         android:textStyle="bold"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="60dp"
-        android:layout_marginBottom="32dp"/>
+        android:layout_marginTop="48dp"
+        android:paddingBottom="32dp"/>
     <!--to alternate between login and register -->
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="#1A1A2E"
-        app:tabTextColor="#AAAAAA"
-        app:tabSelectedTextColor="#FFFFFF"
+        android:backgroundTint="#F5F5F5"
+        app:tabTextColor="#333333"
+        app:tabSelectedTextColor="#333333"
         app:tabIndicatorColor="#7B61FF"/>
     <!--to know which fragment is active -->
 

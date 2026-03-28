@@ -1,5 +1,6 @@
 package com.example.everything;
 
+import com.example.everything.models.api.CommunityDto;
 import java.io.Serializable;
 //serializable to pass data as bytes automatically between activities
 public class Community implements Serializable {
@@ -12,7 +13,6 @@ public class Community implements Serializable {
     private boolean isJoined;
 
     //Constructor
-
     public Community(String id, String name, String category, String description,int memberCount, String imageUrl, boolean isJoined){
         this.id=id;
         this.name=name;
@@ -22,6 +22,18 @@ public class Community implements Serializable {
         this.imageUrl=imageUrl;
         this.isJoined=isJoined;
     }
+
+    // Constructor
+    public Community(CommunityDto dto) {
+        this.id = String.valueOf(dto.getId());
+        this.name = dto.getName();
+        this.category = "General";
+        this.description = dto.getDescription();
+        this.memberCount = dto.getMemberCount();
+        this.imageUrl = ""; 
+        this.isJoined = dto.isJoined();
+    }
+
     public String getId(){return id;}
     public String getName(){return name;}
     public String getCategory(){return category;}
@@ -30,4 +42,5 @@ public class Community implements Serializable {
     public String getImageUrl(){return imageUrl;}
     public boolean isJoined(){return isJoined;}
     public void setJoined(boolean joined){isJoined=joined;}
+    public void setMemberCount(int memberCount){this.memberCount = memberCount;}
 }

@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-//adapter to switch between the 2 auth fragments
+//adapter to display data in the 2 auth fragments
 public class AuthPagerAdapter extends FragmentStateAdapter {
 
     public AuthPagerAdapter(@NonNull FragmentActivity fragmentActivity) {

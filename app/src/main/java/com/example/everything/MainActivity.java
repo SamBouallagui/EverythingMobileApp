@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity{
         
         // Commencer avec le fragment home par défaut
         loadFragment(new HomeFragment());
-        
+        //Gerer la navigation entre les fragments dans BottomNavigationView
         bottomNav.setOnItemSelectedListener(item -> {
             Fragment selected;
             int id=item.getItemId();

@@ -1,151 +1,193 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginVertical="12dp"
-    android:layout_marginHorizontal="12dp"
-    app:cardBackgroundColor="#FFFFFF"
-    app:cardCornerRadius="16dp"
-    app:cardElevation="8dp">
-    
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginVertical="8dp"
+    android:background="@drawable/bg_card_glass"
+    android:orientation="vertical"
+    android:padding="18dp">
+
+    <!-- Author row -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
-        
-        <!-- Section en-tête avec infos auteur et actions -->
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <!-- Avatar -->
+        <FrameLayout
+            android:layout_width="42dp"
+            android:layout_height="42dp">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_avatar_circle" />
+
+            <TextView
+                android:id="@+id/tvAuthorInitial"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="A"
+                android:textColor="@color/accent_light"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </FrameLayout>
+
+        <!-- Name + time -->
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_marginStart="12dp">
 
-            <!-- Photo de profil de l'auteur -->
-            <ImageView
-                android:id="@+id/ivAuthorAvatar"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="#F0F0F0"
-                android:src="@android:drawable/ic_menu_myplaces"
-                android:scaleType="centerCrop"/>
-
-            <!-- Nom de l'auteur et badge de rôle -->
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:layout_marginStart="10dp">
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
-
-                    <TextView
-                        android:id="@+id/tvAuthorName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Author Name"
-                        android:textColor="#000000"
-                        android:textSize="14sp"
-                        android:textStyle="bold"/>
-
-                    <!-- Badge de rôle pour les modérateurs et admins -->
-                    <TextView
-                        android:id="@+id/tvRoleBadge"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="6dp"
-                        android:layout_marginHorizontal="16dp"
-                        android:paddingHorizontal="6dp"
-                        android:paddingVertical="2dp"
-                        android:text="MOD"
-                        android:textColor="#FFFFFF"
-                        android:textSize="10sp"
-                        android:backgroundTint="#7B61FF"
-                        android:visibility="gone"/>
-
-                </LinearLayout>
-
-                <!-- Horodatage du post -->
                 <TextView
-                    android:id="@+id/tvTimeAgo"
+                    android:id="@+id/tvAuthorName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="2 hours ago"
-                    android:textColor="#000000"
-                    android:textSize="11sp"
-                    android:layout_marginTop="2dp"/>
+                    android:text="Author Name"
+                    android:textColor="@color/text_primary"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
+                <TextView
+                    android:id="@+id/tvRoleBadge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/bg_badge_mod"
+                    android:paddingHorizontal="7dp"
+                    android:paddingVertical="2dp"
+                    android:text="MOD"
+                    android:textColor="@color/badge_mod_text"
+                    android:textSize="9sp"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
             </LinearLayout>
 
-            <!-- Bouton supprimer - seulement visible pour l'auteur du post -->
-            <ImageButton
-                android:id="@+id/btnDeletePost"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@android:drawable/ic_menu_delete"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:visibility="gone"
-                android:contentDescription="Delete post"
-                android:tint="#FF6B6B"/>
-
+            <TextView
+                android:id="@+id/tvTimeAgo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="2 hours ago"
+                android:textColor="@color/text_tertiary"
+                android:textSize="12sp" />
         </LinearLayout>
 
-        <!-- Texte du contenu principal du post -->
-        <TextView
-            android:id="@+id/tvPostContent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Post content goes here"
-            android:textColor="#000000"
-            android:textSize="14sp"
-            android:layout_marginTop="12dp"
-            android:lineSpacingMultiplier="1.2"/>
+        <!-- Delete button -->
+        <ImageButton
+            android:id="@+id/btnDeletePost"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@android:drawable/ic_menu_delete"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:visibility="gone"
+            android:padding="6dp"
+            app:tint="@color/status_error" />
+    </LinearLayout>
 
-        <!-- Ligne de séparation -->
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#2A2A4A"
-            android:layout_marginTop="12dp"/>
+    <!-- Post Content -->
+    <TextView
+        android:id="@+id/tvPostContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:text="Post content goes here"
+        android:textColor="@color/text_heading"
+        android:textSize="15sp"
+        android:lineSpacingMultiplier="1.5" />
 
-        <!-- Boutons d'action pour like et commentaire -->
+    <!-- Divider -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="4dp" />
+
+    <!-- Action row -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:id="@+id/layoutLike"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
             android:orientation="horizontal"
-            android:layout_marginBottom="8dp">
+            android:gravity="center_vertical"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="4dp"
+            android:clickable="true"
+            android:focusable="true">
+
+            <ImageView
+                android:id="@+id/ivLikeIcon"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@android:drawable/btn_star_big_off"
+                app:tint="@color/text_tertiary" />
 
             <Button
                 android:id="@+id/btnLike"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="♥ 0"
-                android:textColor="#6B7280"
-                android:backgroundTint="@android:color/transparent"
+                android:layout_height="40dp"
+                android:text="Like"
+                android:textColor="@color/text_tertiary"
+                android:background="@android:color/transparent"
                 android:textSize="13sp"
-                android:paddingHorizontal="12dp"
-                android:paddingVertical="6dp"
-                android:layout_marginEnd="8dp"/>
+                android:textStyle="bold"
+                android:paddingStart="6dp"
+                android:paddingEnd="0dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutComment"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="4dp"
+            android:layout_marginStart="8dp"
+            android:clickable="true"
+            android:focusable="true">
+
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@android:drawable/ic_menu_share"
+                app:tint="@color/text_tertiary" />
 
             <Button
                 android:id="@+id/btnComment"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="💬 0"
-                android:textColor="#6B7280"
-                android:backgroundTint="@android:color/transparent"
+                android:layout_height="40dp"
+                android:text="Comment"
+                android:textColor="@color/text_tertiary"
+                android:background="@android:color/transparent"
                 android:textSize="13sp"
-                android:layout_marginStart="8dp"/>
-
+                android:textStyle="bold"
+                android:paddingStart="6dp"
+                android:paddingEnd="0dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp" />
         </LinearLayout>
-
     </LinearLayout>
 
-</com.google.android.material.card.MaterialCardView>
+</LinearLayout>

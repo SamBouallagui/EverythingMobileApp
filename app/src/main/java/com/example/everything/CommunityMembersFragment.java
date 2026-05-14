@@ -214,6 +214,12 @@ public class CommunityMembersFragment extends Fragment {
             }
         });
     }
+
+    public void refreshMembers() {
+        loadMembersFromApi();
+        checkUserRole();
+    }
+
     
     private void promoteMember(Member member, int position) {
         

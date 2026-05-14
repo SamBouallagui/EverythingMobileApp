@@ -1,40 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#FFFFFF">
+    android:background="@color/bg_primary">
 
-    <!-- Header -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="16dp"
-        android:background="#2A2A4A"
-        android:gravity="center_vertical">
+        android:padding="20dp"
+        android:background="@color/bg_secondary"
+        android:gravity="center_vertical"
+        android:elevation="4dp">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Comments"
-            android:textSize="18sp"
+            android:textColor="@color/text_primary"
+            android:textSize="20sp"
             android:textStyle="bold"
-            android:textColor="#FFFFFF" />
+            android:letterSpacing="0.02" />
 
         <ImageView
             android:id="@+id/btnClose"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:src="@android:drawable/ic_menu_close_clear_cancel"
-            android:background="?android:attr/selectableItemBackground"
-            android:padding="4dp" />
-
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:padding="4dp"
+            app:tint="@color/text_secondary" />
     </LinearLayout>
 
-    <!-- Comments List -->
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -44,6 +45,7 @@
             android:id="@+id/rvComments"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:clipToPadding="false"
             android:padding="8dp" />
 
         <TextView
@@ -51,16 +53,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="32dp"
-            android:text="No comments yet. Be the first to comment!"
+            android:text="Be the first to comment!"
+            android:textColor="@color/text_tertiary"
             android:textSize="16sp"
-            android:textColor="#666666"
             android:gravity="center"
             android:visibility="gone" />
-
     </FrameLayout>
 
-    <!-- Progress Bar -->
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
@@ -69,41 +68,41 @@
         android:layout_margin="16dp"
         android:visibility="gone" />
 
-    <!-- Comment Input -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="16dp"
-        android:background="#F5F5F5"
-        android:gravity="center_vertical">
+        android:background="@color/bg_secondary"
+        android:gravity="center_vertical"
+        android:elevation="8dp">
 
         <EditText
             android:id="@+id/etNewComment"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginEnd="8dp"
-            android:hint="Write a comment..."
-            android:textSize="14sp"
-            android:textColor="#333333"
-            android:textColorHint="#999999"
+            android:layout_marginEnd="12dp"
             android:background="@drawable/edit_text_background"
-            android:padding="12dp"
-            android:maxLines="3"
+            android:hint="Add a comment..."
+            android:textColorHint="@color/text_tertiary"
+            android:textColor="@color/text_primary"
+            android:padding="14dp"
+            android:textSize="14sp"
+            android:maxLines="4"
             android:inputType="textMultiLine|textCapSentences" />
 
         <Button
             android:id="@+id/btnSendComment"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Send"
+            android:layout_height="48dp"
+            android:text="Post"
             android:textSize="14sp"
-            android:textColor="#FFFFFF"
-            android:background="#7B61FF"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="8dp" />
-
+            android:textStyle="bold"
+            android:textColor="@color/text_on_accent"
+            android:background="@drawable/bg_button_gradient"
+            android:paddingHorizontal="24dp"
+            android:stateListAnimator="@null" />
     </LinearLayout>
 
 </LinearLayout>

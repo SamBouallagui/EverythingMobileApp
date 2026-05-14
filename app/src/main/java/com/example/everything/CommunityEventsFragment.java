@@ -31,12 +31,14 @@ public class CommunityEventsFragment extends Fragment {
     private String communityId;
     private String currentUserId;
     private boolean isAdmin = false;
+    private View emptyLayout;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_community_events, container, false);
         RecyclerView rvEvents = view.findViewById(R.id.rvEvents);
+        emptyLayout = view.findViewById(R.id.layoutEmptyEvents);
         FloatingActionButton fabCreateEvent = view.findViewById(R.id.fabCreatePost);
         rvEvents.setLayoutManager(new LinearLayoutManager(getContext()));
         
@@ -151,6 +153,9 @@ public class CommunityEventsFragment extends Fragment {
                         eventList.add(event);
                     }
                     adapter.notifyDataSetChanged();
+                    if (emptyLayout != null) {
+                        emptyLayout.setVisibility(events.isEmpty() ? android.view.View.VISIBLE : android.view.View.GONE);
+                    }
                 } else {
                     Toast.makeText(getContext(), "Failed to load events", Toast.LENGTH_SHORT).show();
 
@@ -228,6 +233,7 @@ public class CommunityEventsFragment extends Fragment {
     
     public void refreshEvents() {
         loadEventsFromApi();
+        checkAdminRole();
     }
     
 

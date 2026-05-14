@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.widget.EditText;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,15 +17,15 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.everything.models.api.CreatePostRequest;
 import com.example.everything.models.api.PostDto;
-import com.google.android.material.textfield.TextInputEditText;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class CreatePostActivity extends AppCompatActivity {
-    private static final int MAX_CHARS=500;
-    private TextInputEditText etPostContent;
+    private static final int MAX_CHARS = 500;
+    private EditText etPostContent;
     private TextView tvCharCount;
+    private android.widget.ProgressBar charProgressBar;
     private String communityId;
     private String communityName;
     private Button btnSubmit;
@@ -49,13 +50,14 @@ public class CreatePostActivity extends AppCompatActivity {
     }
     
     private void setupViews(){
-        etPostContent=findViewById(R.id.etPostContent);
-        tvCharCount=findViewById(R.id.CharCount);
-        btnSubmit=findViewById(R.id.SubmitPost);
-        TextView tvPostingIn=findViewById(R.id.tvPostingIn);
+        etPostContent = findViewById(R.id.etPostContent);
+        tvCharCount = findViewById(R.id.CharCount);
+        charProgressBar = findViewById(R.id.charProgressBar);
+        btnSubmit = findViewById(R.id.SubmitPost);
+        TextView tvPostingIn = findViewById(R.id.tvPostingIn);
         
-        if (communityName!=null){
-            tvPostingIn.setText("Posting in: " + communityName);
+        if (communityName != null) {
+            tvPostingIn.setText(communityName);
         }
         
         etPostContent.addTextChangedListener(new TextWatcher() {
@@ -69,12 +71,23 @@ public class CreatePostActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                int remaining =s.length();
-                tvCharCount.setText(remaining+ " / "+MAX_CHARS);
-                if (remaining >MAX_CHARS*0.9){
-                    tvCharCount.setTextColor(android.graphics.Color.parseColor("#FF6B6B"));
-                }else{
-                    tvCharCount.setTextColor(android.graphics.Color.parseColor("#AAAAAA"));
+                int len = s.length();
+                tvCharCount.setText(len + " / " + MAX_CHARS);
+                if (charProgressBar != null) {
+                    charProgressBar.setProgress(len);
+                }
+                if (len > MAX_CHARS * 0.9) {
+                    tvCharCount.setTextColor(android.graphics.Color.parseColor("#FB7185"));
+                    if (charProgressBar != null) {
+                        charProgressBar.setProgressTintList(
+                            android.content.res.ColorStateList.valueOf(android.graphics.Color.parseColor("#FB7185")));
+                    }
+                } else {
+                    tvCharCount.setTextColor(android.graphics.Color.parseColor("#64748B"));
+                    if (charProgressBar != null) {
+                        charProgressBar.setProgressTintList(
+                            android.content.res.ColorStateList.valueOf(android.graphics.Color.parseColor("#8B5CF6")));
+                    }
                 }
             }
         });

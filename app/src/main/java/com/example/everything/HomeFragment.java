@@ -25,6 +25,9 @@ public class HomeFragment extends Fragment {
     private FloatingActionButton fabCreateCommunity;
     private CommunityAdapter adapter;
     private List<Community> communityList = new ArrayList<>();
+    private androidx.swiperefreshlayout.widget.SwipeRefreshLayout swipeRefresh;
+    private View shimmerView;
+    private View emptyStateView;
 
     @Nullable
     @Override
@@ -32,13 +35,22 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         rvCommunities = view.findViewById(R.id.rvHomeCommunities);
         fabCreateCommunity = view.findViewById(R.id.fabCreateCommunity);
+        swipeRefresh = view.findViewById(R.id.swipeRefreshHome);
+        shimmerView = view.findViewById(R.id.shimmer_home);
+        emptyStateView = view.findViewById(R.id.empty_state_home);
         
         setupRecyclerView();
         setupFab();
+        setupSwipeRefresh();
         
-        loadJoinedCommunities();
+        loadJoinedCommunities(true);
         
         return view;
+    }
+    
+    private void setupSwipeRefresh() {
+        swipeRefresh.setOnRefreshListener(() -> loadJoinedCommunities(false));
+        swipeRefresh.setColorSchemeColors(getResources().getColor(R.color.accent_primary));
     }
     
     private void setupRecyclerView() {
@@ -46,7 +58,9 @@ public class HomeFragment extends Fragment {
         adapter = new CommunityAdapter(getContext(), communityList, new CommunityAdapter.OnCommunityClickListener() {
             @Override
             public void onCommunityClick(Community community) {
-                // Navigate to community details
+                Intent intent = new Intent(getActivity(), CommunityDetailActivity.class);
+                intent.putExtra("community", community);
+                startActivity(intent);
             }
 
             @Override
@@ -66,22 +80,34 @@ public class HomeFragment extends Fragment {
         });
     }
     
-    private void loadJoinedCommunities() {
+    private void loadJoinedCommunities(boolean showShimmer) {
+        if (showShimmer && shimmerView != null) {
+            shimmerView.setVisibility(View.VISIBLE);
+            com.example.everything.utils.AnimationUtils.startShimmer(shimmerView);
+            rvCommunities.setVisibility(View.GONE);
+            emptyStateView.setVisibility(View.GONE);
+        }
+
         ApiService apiService = ApiClient.getClient().create(ApiService.class);
         apiService.getJoinedCommunities().enqueue(new Callback<List<CommunityDto>>() {
             @Override
             public void onResponse(Call<List<CommunityDto>> call, Response<List<CommunityDto>> response) {
-                if (response.isSuccessful() && response.body() != null) {
+                if (swipeRefresh != null) swipeRefresh.setRefreshing(false);
+                if (shimmerView != null) shimmerView.setVisibility(View.GONE);
+                
+                if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
+                    rvCommunities.setVisibility(View.VISIBLE);
+                    emptyStateView.setVisibility(View.GONE);
+                    
                     communityList.clear();
                     for (int i = 0; i < response.body().size(); i++) {
                         CommunityDto dto = response.body().get(i);
                         Community community = new Community(dto);
-                        community.setJoined(true); // These are joined communities
+                        community.setJoined(true);
                         communityList.add(community);
-                        
                         getCommunityMemberCount(community, i);
                     }
-                    adapter.notifyDataSetChanged();
+                    adapter.updateList(communityList);
                 } else {
                     showEmptyState();
                 }
@@ -89,6 +115,8 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<CommunityDto>> call, Throwable t) {
+                if (swipeRefresh != null) swipeRefresh.setRefreshing(false);
+                if (shimmerView != null) shimmerView.setVisibility(View.GONE);
                 showEmptyState();
             }
         });
@@ -121,10 +149,23 @@ public class HomeFragment extends Fragment {
     
     private void showEmptyState() {
         communityList.clear();
-        adapter.notifyDataSetChanged();
+        adapter.updateList(communityList);
         
-        if (getContext() != null) {
-            Toast.makeText(getContext(), "No joined communities found", Toast.LENGTH_SHORT).show();
+        rvCommunities.setVisibility(View.GONE);
+        if (emptyStateView != null) {
+            emptyStateView.setVisibility(View.VISIBLE);
+            
+            // Setup Create Community button in empty state
+            View btnExplore = emptyStateView.findViewById(R.id.btnExplore);
+            if (btnExplore != null) {
+                btnExplore.setOnClickListener(v -> {
+                    // Navigate to Explore
+                    com.google.android.material.bottomnavigation.BottomNavigationView nav = getActivity().findViewById(R.id.bottomNav);
+                    if (nav != null) {
+                        nav.setSelectedItemId(R.id.nav_explore);
+                    }
+                });
+            }
         }
     }
     
@@ -137,7 +178,7 @@ public class HomeFragment extends Fragment {
             public void onResponse(Call<String> call, Response<String> response) {
                 if (response.isSuccessful()) {
                     communityList.remove(position);
-                    adapter.notifyItemRemoved(position);
+                    adapter.updateList(new ArrayList<>(communityList));
                     Toast.makeText(getContext(), "Left " + community.getName(), Toast.LENGTH_SHORT).show();
                 } else {
                     if (response.code() == 401) {

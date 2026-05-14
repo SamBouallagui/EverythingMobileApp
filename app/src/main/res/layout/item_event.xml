@@ -1,154 +1,203 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="16dp"
     android:layout_marginVertical="8dp"
-    app:cardBackgroundColor="#FFFFFF"
-    app:cardCornerRadius="16dp"
-    app:cardElevation="6dp"
-    android:foreground="?android:attr/selectableItemBackground">
+    android:background="@drawable/bg_card_glass"
+    android:orientation="vertical"
+    android:clipToPadding="false">
+
+    <!-- Accent bar on the left -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="@drawable/bg_button_gradient" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="18dp">
 
-        <!-- Left accent border -->
-        <View
-            android:layout_width="4dp"
-            android:layout_height="match_parent"
-            android:background="#7B61FF"/>
-
-        <!-- Event Title -->
+        <!-- Title + Author -->
         <TextView
             android:id="@+id/tvEventTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Event Title"
-            android:textColor="#1A1A1A"
-            android:textSize="18sp"
+            android:textColor="@color/text_primary"
+            android:textSize="17sp"
             android:textStyle="bold"
-            android:layout_marginStart="12dp"
-            android:maxLines="1"
-            android:ellipsize="end"/>
+            android:letterSpacing="0.01" />
 
-        <!-- Author Name -->
         <TextView
             android:id="@+id/tvEventAuthor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Created by Author"
-            android:textColor="#6B7280"
-            android:textSize="12sp"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="2dp"
-            android:alpha="0.8"/>
+            android:layout_marginTop="3dp"
+            android:text="Organized by Author"
+            android:textColor="@color/text_tertiary"
+            android:textSize="12sp" />
 
-        <!-- Date and Time -->
+        <!-- Date / Time row -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="12dp"
-            android:layout_marginStart="12dp">
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_stat_card"
+            android:padding="12dp">
 
-            <TextView
-                android:id="@+id/tvEventDate"
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:src="@android:drawable/ic_menu_today"
+                    android:layout_marginEnd="8dp"
+                    app:tint="@color/accent_light" />
+
+                <TextView
+                    android:id="@+id/tvEventDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Date"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="📅 Date"
-                android:textColor="#7B61FF"
-                android:textSize="13sp"/>
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
 
-            <TextView
-                android:id="@+id/tvEventTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="🕐 Time"
-                android:textColor="#7B61FF"
-                android:textSize="13sp"
-                android:layout_marginStart="16dp"/>
+                <ImageView
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:src="@android:drawable/ic_menu_recent_history"
+                    android:layout_marginEnd="8dp"
+                    app:tint="@color/accent_light" />
 
+                <TextView
+                    android:id="@+id/tvEventTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Time"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
         </LinearLayout>
 
         <!-- Location -->
-        <TextView
-            android:id="@+id/tvEventLocation"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="📍 Location"
-            android:textColor="#6B7280"
-            android:textSize="13sp"
-            android:layout_marginTop="6dp"
-            android:layout_marginStart="12dp"/>
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="10dp">
+
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:src="@android:drawable/ic_menu_mylocation"
+                android:layout_marginEnd="8dp"
+                app:tint="@color/text_tertiary" />
+
+            <TextView
+                android:id="@+id/tvEventLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Location"
+                android:textColor="@color/text_secondary"
+                android:textSize="13sp" />
+        </LinearLayout>
 
         <!-- Description -->
         <TextView
             android:id="@+id/tvEventDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
             android:text="Description"
-            android:textColor="#4B5563"
+            android:textColor="@color/text_secondary"
             android:textSize="14sp"
-            android:layout_marginTop="8dp"
-            android:layout_marginStart="12dp"
-            android:maxLines="3"
-            android:ellipsize="end"
-            android:lineSpacingMultiplier="1.3"/>
+            android:lineSpacingMultiplier="1.4" />
 
         <!-- Divider -->
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#E5E7EB"
-            android:layout_marginTop="12dp"
-            android:layout_marginStart="12dp"/>
+            android:background="@color/divider"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="12dp" />
 
-        <!-- Attendance Section -->
+        <!-- Footer: attendees + actions -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginTop="12dp"
-            android:layout_marginStart="12dp">
+            android:gravity="center_vertical">
 
-            <TextView
-                android:id="@+id/tvAttendeeCount"
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="0 attending"
-                android:textColor="#6B7280"
-                android:textSize="12sp"/>
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:src="@android:drawable/ic_menu_myplaces"
+                    android:layout_marginEnd="6dp"
+                    app:tint="@color/status_success" />
+
+                <TextView
+                    android:id="@+id/tvAttendeeCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0 attending"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
             <ImageButton
                 android:id="@+id/btnDeleteEvent"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 android:src="@android:drawable/ic_menu_delete"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:visibility="gone"
-                android:contentDescription="Delete event"
-                android:tint="#FF6B6B"
-                android:layout_marginEnd="8dp"/>
+                android:padding="6dp"
+                android:layout_marginEnd="8dp"
+                app:tint="@color/status_error" />
 
             <Button
                 android:id="@+id/btnRsvp"
                 android:layout_width="wrap_content"
-                android:layout_height="36dp"
+                android:layout_height="42dp"
                 android:text="RSVP"
-                android:textSize="12sp"
-                android:textColor="#FFFFFF"
-                android:backgroundTint="#7B61FF"
-                app:cornerRadius="18dp"/>
-
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_on_accent"
+                android:background="@drawable/bg_button_gradient"
+                android:stateListAnimator="@null"
+                android:paddingHorizontal="24dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp" />
         </LinearLayout>
-
     </LinearLayout>
 
-</com.google.android.material.card.MaterialCardView>
+</LinearLayout>

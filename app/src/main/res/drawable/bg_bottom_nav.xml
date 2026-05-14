@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:type="linear"
+                android:angle="0"
+                android:startColor="#080B12"
+                android:centerColor="#0F1520"
+                android:endColor="#080B12" />
+        </shape>
+    </item>
+    <!-- Top border glow line -->
+    <item android:bottom="-1dp" android:left="24dp" android:right="24dp">
+        <shape android:shape="rectangle">
+            <size android:height="1dp" />
+            <gradient
+                android:type="linear"
+                android:angle="0"
+                android:startColor="#008B5CF6"
+                android:centerColor="#308B5CF6"
+                android:endColor="#008B5CF6" />
+        </shape>
+    </item>
+</layer-list>

@@ -57,13 +57,13 @@ public class Post implements Serializable{
                 long diffInDays = diffInHours / 24;
                 
                 if (diffInSeconds < 60) {
-                    return "Il y a quelques instants";
+                    return "Just now";
                 } else if (diffInMinutes < 60) {
-                    return diffInMinutes + " minute" + (diffInMinutes == 1 ? "" : "s") + " avant";
+                    return diffInMinutes + " minute" + (diffInMinutes == 1 ? "" : "s") + " ago";
                 } else if (diffInHours < 24) {
-                    return diffInHours + " heure" + (diffInHours == 1 ? "" : "s") + " avant";
+                    return diffInHours + " hour" + (diffInHours == 1 ? "" : "s") + " ago";
                 } else if (diffInDays < 7) {
-                    return diffInDays + " jour" + (diffInDays == 1 ? "" : "s") + " avant";
+                    return diffInDays + " day" + (diffInDays == 1 ? "" : "s") + " ago";
                 } else {
                     java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("MMM d, yyyy", java.util.Locale.getDefault());
                     return dateFormat.format(createdDate);
@@ -72,7 +72,7 @@ public class Post implements Serializable{
         } catch (Exception e) {
         }
         
-        return "Récemment";
+        return "Recently";
     }
     
     // Méthodes getter

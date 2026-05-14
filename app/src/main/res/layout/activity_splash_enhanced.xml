@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Animated particle background -->
+    <com.example.everything.views.ParticleView
+        android:id="@+id/particleView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!-- Gradient overlay -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_splash_gradient" />
+
+    <!-- Decorative rings -->
+    <View
+        android:layout_width="320dp"
+        android:layout_height="320dp"
+        android:layout_gravity="center"
+        android:alpha="0.03"
+        android:background="@drawable/bg_avatar_ring" />
+
+    <View
+        android:layout_width="240dp"
+        android:layout_height="240dp"
+        android:layout_gravity="center"
+        android:alpha="0.05"
+        android:background="@drawable/bg_avatar_ring" />
+
+    <View
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:layout_gravity="center"
+        android:alpha="0.08"
+        android:background="@drawable/bg_avatar_ring" />
+
+    <!-- Main content -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <!-- Logo container with glow -->
+        <FrameLayout
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center">
+
+            <!-- Glow effect -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_avatar_ring"
+                android:alpha="0.3" />
+
+            <!-- App Icon -->
+            <ImageView
+                android:id="@+id/ivLogo"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_gravity="center"
+                android:src="@android:drawable/ic_menu_myplaces"
+                app:tint="@color/accent_primary" />
+        </FrameLayout>
+
+        <!-- App Name -->
+        <TextView
+            android:id="@+id/tvAppName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@string/everything"
+            android:textColor="@color/text_primary"
+            android:textSize="48sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.15"
+            android:shadowColor="@color/accent_primary"
+            android:shadowDx="0"
+            android:shadowDy="0"
+            android:shadowRadius="20" />
+
+        <!-- Gradient accent bar -->
+        <View
+            android:id="@+id/accentBar"
+            android:layout_width="60dp"
+            android:layout_height="3dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_button_gradient" />
+
+        <!-- Tagline -->
+        <TextView
+            android:id="@+id/tvTagLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/find_your_people"
+            android:textSize="16sp"
+            android:textColor="@color/text_secondary"
+            android:letterSpacing="0.1" />
+
+        <!-- Loading dots -->
+        <LinearLayout
+            android:id="@+id/loadingDots"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:layout_margin="4dp"
+                android:background="@drawable/bg_shimmer_circle" />
+
+            <View
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:layout_margin="4dp"
+                android:background="@drawable/bg_shimmer_circle" />
+
+            <View
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:layout_margin="4dp"
+                android:background="@drawable/bg_shimmer_circle" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

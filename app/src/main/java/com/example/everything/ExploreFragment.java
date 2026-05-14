@@ -25,8 +25,11 @@ import retrofit2.Response;
 public class ExploreFragment extends Fragment {
     private RecyclerView rvCommunities;
     private CommunityAdapter adapter;
-    private List<Community> communityList=new ArrayList<>();
-    private List<Community> filteredList=new ArrayList<>();
+    private List<Community> communityList = new ArrayList<>();
+    private List<Community> filteredList = new ArrayList<>();
+    private androidx.swiperefreshlayout.widget.SwipeRefreshLayout swipeRefresh;
+    private View shimmerView;
+    private View emptyStateView;
     
     @Nullable
     @Override
@@ -34,8 +37,12 @@ public class ExploreFragment extends Fragment {
         View view=inflater.inflate(R.layout.fragment_explore,container,false);
         rvCommunities = view.findViewById(R.id.rvCommunities);
         EditText etSearch=view.findViewById(R.id.etSearch);
+        swipeRefresh = view.findViewById(R.id.swipeRefreshExplore);
+        shimmerView = view.findViewById(R.id.shimmer_explore);
+        emptyStateView = view.findViewById(R.id.empty_state_explore);
         
-        loadCommunitiesFromApi();
+        setupSwipeRefresh();
+        loadCommunitiesFromApi(true);
         
         rvCommunities.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter=new CommunityAdapter(getContext(), filteredList, new CommunityAdapter.OnCommunityClickListener() {
@@ -72,11 +79,24 @@ public class ExploreFragment extends Fragment {
         return view;
     }
     
-    private void loadCommunitiesFromApi() {
+    private void loadCommunitiesFromApi(boolean showShimmer) {
         ApiService apiService = ApiClient.getClient().create(ApiService.class);
+        
+        // Find shimmer and recycler
+        View shimmerView = getView() != null ? getView().findViewById(R.id.shimmer_explore) : null;
+        
+        // Show shimmer
+        if (showShimmer && shimmerView != null) {
+            shimmerView.setVisibility(View.VISIBLE);
+            com.example.everything.utils.AnimationUtils.startShimmer(shimmerView);
+            rvCommunities.setVisibility(View.GONE);
+        }
+        
         apiService.getAllCommunities().enqueue(new Callback<List<CommunityDto>>() {
             @Override
             public void onResponse(Call<List<CommunityDto>> call, Response<List<CommunityDto>> response) {
+                if (shimmerView != null) shimmerView.setVisibility(View.GONE);
+                rvCommunities.setVisibility(View.VISIBLE);
                 if (response.isSuccessful() && response.body() != null) {
                     List<CommunityDto> communities = response.body();
                     
@@ -96,8 +116,9 @@ public class ExploreFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<CommunityDto>> call, Throwable t) {
+                if (shimmerView != null) shimmerView.setVisibility(View.GONE);
+                rvCommunities.setVisibility(View.VISIBLE);
                 Toast.makeText(getContext(), "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-
             }
         });
     }
@@ -130,7 +151,7 @@ public class ExploreFragment extends Fragment {
                     
                     filteredList.clear();
                     filteredList.addAll(communityList);
-                    adapter.notifyDataSetChanged();
+                    adapter.updateList(filteredList);
                 }
             }
 
@@ -143,7 +164,7 @@ public class ExploreFragment extends Fragment {
                 
                 filteredList.clear();
                 filteredList.addAll(communityList);
-                adapter.notifyDataSetChanged();
+                adapter.updateList(filteredList);
             }
         });
     }
@@ -214,7 +235,7 @@ public class ExploreFragment extends Fragment {
                     community.setJoined(false);
                     // Decrease member count when leaving
                     int currentCount = community.getMemberCount();
-                    community.setMemberCount(Math.max(1, currentCount - 1));
+                    community.setMemberCount(Math.max(0, currentCount - 1));
                     adapter.updateItem(position);
                     Toast.makeText(getContext(), "Left " + community.getName(), Toast.LENGTH_SHORT).show();
                 } else {
@@ -234,20 +255,29 @@ public class ExploreFragment extends Fragment {
     }
     
     private void filterCommunities(String query){
-        filteredList.clear();
+        List<Community> newFiltered = new ArrayList<>();
         if(query.isEmpty()){
-            filteredList.addAll(communityList);
+            newFiltered.addAll(communityList);
         }else{
             String lower=query.toLowerCase();
             for(Community c:communityList){
                 String category = c.getCategory();
                 if((c.getName() != null && c.getName().toLowerCase().contains(lower)) || 
                    (category != null && category.toLowerCase().contains(lower))){
-                    filteredList.add(c);
+                    newFiltered.add(c);
                 }
             }
         }
-        adapter.notifyDataSetChanged();
+        filteredList.clear();
+        filteredList.addAll(newFiltered);
+        adapter.updateList(newFiltered);
+    }
+
+    private void setupSwipeRefresh() {
+        if (swipeRefresh != null) {
+            swipeRefresh.setOnRefreshListener(() -> loadCommunitiesFromApi(false));
+            swipeRefresh.setColorSchemeColors(getResources().getColor(R.color.accent_primary));
+        }
     }
 
 }

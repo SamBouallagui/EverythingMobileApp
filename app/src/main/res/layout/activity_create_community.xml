@@ -1,86 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="24dp"
+    android:background="@color/bg_primary"
     tools:context=".CreateCommunityActivity">
 
-    <!-- Toolbar -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="#FFFFFF"
+        style="@style/ToolbarStyle"
         android:elevation="4dp"
-        android:title="Create Community"
-        android:titleTextColor="#1A1A1A" />
+        app:title="Create Community"
+        app:titleTextColor="@color/text_primary" />
 
-    <!-- Form Content -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingTop="16dp">
+        android:padding="24dp">
 
-        <!-- Community Name -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Start something new"
+            android:textColor="@color/text_primary"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.02"
+            android:layout_marginBottom="24dp" />
+
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            android:layout_marginBottom="20dp"
+            style="@style/DarkTextInputLayout"
+            app:boxStrokeColor="@color/input_stroke_focus"
+            app:hintTextColor="@color/text_secondary">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etCommunityName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Community Name"
+                android:textColor="@color/text_primary"
+                android:textColorHint="@color/text_tertiary"
                 android:inputType="textCapWords"
-                android:maxLines="1" />
-
+                android:maxLines="1"
+                android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Community Description -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            android:layout_marginBottom="32dp"
+            style="@style/DarkTextInputLayout"
+            app:boxStrokeColor="@color/input_stroke_focus"
+            app:hintTextColor="@color/text_secondary">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etCommunityDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Community Description"
+                android:hint="Description (what's it about?)"
+                android:textColor="@color/text_primary"
+                android:textColorHint="@color/text_tertiary"
                 android:inputType="textMultiLine"
-                android:minLines="3"
-                android:maxLines="5"
-                android:scrollbars="vertical" />
-
+                android:minLines="4"
+                android:maxLines="6"
+                android:scrollbars="vertical"
+                android:gravity="top"
+                android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Create Button -->
         <Button
             android:id="@+id/btnCreateCommunity"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="#7B61FF"
+            android:layout_height="56dp"
             android:text="Create Community"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/text_on_accent"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:padding="12dp" />
+            android:background="@drawable/bg_button_gradient"
+            android:stateListAnimator="@null"
+            android:letterSpacing="0.05" />
 
-        <!-- Progress Bar -->
         <ProgressBar
             android:id="@+id/progressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="20dp"
             android:visibility="gone" />
-
     </LinearLayout>
 
 </LinearLayout>

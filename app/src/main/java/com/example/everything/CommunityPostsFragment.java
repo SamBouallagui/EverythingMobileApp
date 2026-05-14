@@ -26,6 +26,7 @@ import retrofit2.Response;
 // Shows all posts with like/comment/delete functionality
 public class CommunityPostsFragment extends Fragment {
     private RecyclerView rvPosts;
+    private View emptyLayout;
     private PostAdapter adapter;
     private List<Post> postList = new ArrayList<>();
     private String communityId;
@@ -38,6 +39,7 @@ public class CommunityPostsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_community_posts, container, false);
         rvPosts = view.findViewById(R.id.rvPosts);
+        emptyLayout = view.findViewById(R.id.layoutEmptyPosts);
         rvPosts.setLayoutManager(new LinearLayoutManager(getContext()));
         
         // Get community ID and current user ID from arguments
@@ -104,6 +106,9 @@ public class CommunityPostsFragment extends Fragment {
                         postList.add(post);
                     }
                     adapter.notifyDataSetChanged();
+                    if (emptyLayout != null) {
+                        emptyLayout.setVisibility(posts.isEmpty() ? android.view.View.VISIBLE : android.view.View.GONE);
+                    }
                 } else {
                     Toast.makeText(getContext(), "Failed to load posts", Toast.LENGTH_SHORT).show();
 
@@ -131,7 +136,7 @@ public class CommunityPostsFragment extends Fragment {
                         public void onResponse(Call<String> call, Response<String> response) {
                             if (response.isSuccessful()) {
                                 postList.remove(position);
-                                adapter.notifyItemRemoved(position);
+                                adapter.updateList(new ArrayList<>(postList));
                                 Toast.makeText(getContext(), "Post deleted", Toast.LENGTH_SHORT).show();
                             } else {
                                 Toast.makeText(getContext(), "Failed to delete post", Toast.LENGTH_SHORT).show();
@@ -150,6 +155,10 @@ public class CommunityPostsFragment extends Fragment {
     
     public void refreshPosts() {
         loadPostsFromApi();
+    }
+    
+    public void refreshUserRole() {
+        checkUserRole();
     }
     
     private void togglePostLike(Post post, int position) {

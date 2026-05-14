@@ -68,14 +68,66 @@ public class CommunityDetailActivity extends AppCompatActivity {
         updateJoinButton();
 
         btnJoin.setOnClickListener(v -> {
-            community.setJoined(!community.isJoined());
-            updateJoinButton();
-
-            String msg = community.isJoined()
-                    ? "Joined " + community.getName()
-                    : "Left " + community.getName();
-            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+            toggleJoinStatus();
         });
+    }
+
+    private void toggleJoinStatus() {
+        ApiService apiService = ApiClient.getClient().create(ApiService.class);
+        int communityId = Integer.parseInt(community.getId());
+
+        if (community.isJoined()) {
+            apiService.leaveCommunity(communityId).enqueue(new Callback<String>() {
+                @Override
+                public void onResponse(Call<String> call, Response<String> response) {
+                    if (response.isSuccessful()) {
+                        community.setJoined(false);
+                        int count = community.getMemberCount();
+                        community.setMemberCount(Math.max(0, count - 1));
+                        updateCommunityInfo();
+                        updateJoinButton();
+                        checkAdminRole();
+                        notifyFragmentsStatusChanged();
+                        Toast.makeText(CommunityDetailActivity.this, "Left " + community.getName(), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(CommunityDetailActivity.this, "Failed to leave community", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<String> call, Throwable t) {
+                    Toast.makeText(CommunityDetailActivity.this, "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            apiService.joinCommunity(communityId).enqueue(new Callback<String>() {
+                @Override
+                public void onResponse(Call<String> call, Response<String> response) {
+                    if (response.isSuccessful()) {
+                        community.setJoined(true);
+                        int count = community.getMemberCount();
+                        community.setMemberCount(count + 1);
+                        updateCommunityInfo();
+                        updateJoinButton();
+                        checkAdminRole();
+                        notifyFragmentsStatusChanged();
+                        Toast.makeText(CommunityDetailActivity.this, "Joined " + community.getName(), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(CommunityDetailActivity.this, "Failed to join community", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<String> call, Throwable t) {
+                    Toast.makeText(CommunityDetailActivity.this, "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
+
+    private void updateCommunityInfo() {
+        TextView tvMemberCount = findViewById(R.id.tvDetailMemberCount);
+        tvMemberCount.setText(community.getMemberCount() + " members");
     }
 
     private void updateJoinButton() {
@@ -85,18 +137,30 @@ public class CommunityDetailActivity extends AppCompatActivity {
             btnJoin.setText("Joined");
             btnJoin.setBackgroundTintList(
                     android.content.res.ColorStateList.valueOf(
-                            android.graphics.Color.parseColor("#2A2A4A")));
-            if (fabCreatePost != null) {
-                fabCreatePost.setVisibility(View.VISIBLE);
-            }
+                            android.graphics.Color.parseColor("#1E1B4B")));
+            btnJoin.setTextColor(android.graphics.Color.parseColor("#A78BFA"));
         } else {
             btnJoin.setText("Join");
             btnJoin.setBackgroundTintList(
                     android.content.res.ColorStateList.valueOf(
-                            android.graphics.Color.parseColor("#7B61FF")));
-            if (fabCreatePost != null) {
-                fabCreatePost.setVisibility(View.GONE);
-            }
+                            android.graphics.Color.parseColor("#7C3AED")));
+            btnJoin.setTextColor(android.graphics.Color.parseColor("#FFFFFF"));
+        }
+        
+        updateFabVisibility();
+    }
+
+    private void updateFabVisibility() {
+        if (fabCreatePost == null) return;
+        
+        ViewPager2 viewPager = findViewById(R.id.viewPager);
+        int currentTab = viewPager != null ? viewPager.getCurrentItem() : 0;
+        
+        // Only show post FAB on the Posts tab (index 0) and if the user is joined
+        if (currentTab == 0 && community.isJoined()) {
+            fabCreatePost.setVisibility(View.VISIBLE);
+        } else {
+            fabCreatePost.setVisibility(View.GONE);
         }
     }
 
@@ -117,20 +181,7 @@ public class CommunityDetailActivity extends AppCompatActivity {
         viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
-                if (position == 1) {
-                    // events tab - hide post FAB
-                    fabCreatePost.setVisibility(View.GONE);
-                } else if (position == 2) {
-                    // members tab - hide post FAB
-                    fabCreatePost.setVisibility(View.GONE);
-                } else {
-                    // posts tab - show post FAB only if user is joined
-                    if (community.isJoined()) {
-                        fabCreatePost.setVisibility(View.VISIBLE);
-                    } else {
-                        fabCreatePost.setVisibility(View.GONE);
-                    }
-                }
+                updateFabVisibility();
             }
         });
     }
@@ -150,7 +201,6 @@ public class CommunityDetailActivity extends AppCompatActivity {
     }
 
     private void checkAdminRole() {
-        
         if (!community.isJoined()) {
             isAdmin = false;
             invalidateOptionsMenu();
@@ -160,28 +210,11 @@ public class CommunityDetailActivity extends AppCompatActivity {
         ApiService apiService = ApiClient.getClient().create(ApiService.class);
         int communityId = Integer.parseInt(community.getId());
         
-        
-        apiService.getCommunityMembers(communityId).enqueue(new Callback<List<MemberDto>>() {
+        apiService.getCurrentUserMember(communityId).enqueue(new Callback<MemberDto>() {
             @Override
-            public void onResponse(Call<List<MemberDto>> call, Response<List<MemberDto>> response) {
-                
+            public void onResponse(Call<MemberDto> call, Response<MemberDto> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    List<MemberDto> members = response.body();
-                    
-                    // Get current user ID from SharedPreferences
-                    String currentUserId = getCurrentUserId();
-                    
-                    // Find current user in members list
-                    boolean isAdminUser = false;
-                    for (MemberDto member : members) {
-                        
-                        if (String.valueOf(member.getUserId()).equals(currentUserId)) {
-                            isAdminUser = "Admin".equals(member.getRole());
-                            break;
-                        }
-                    }
-                    
-                    isAdmin = isAdminUser;
+                    isAdmin = "Admin".equals(response.body().getRole());
                 } else {
                     isAdmin = false;
                 }
@@ -189,7 +222,7 @@ public class CommunityDetailActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<List<MemberDto>> call, Throwable t) {
+            public void onFailure(Call<MemberDto> call, Throwable t) {
                 isAdmin = false;
                 invalidateOptionsMenu();
             }
@@ -262,46 +295,34 @@ public class CommunityDetailActivity extends AppCompatActivity {
         if (requestCode == 100 && resultCode == RESULT_OK) {
             boolean postCreated = data != null && data.getBooleanExtra("postCreated", false);
             if (postCreated) {
-                androidx.viewpager2.widget.ViewPager2 viewPager = findViewById(R.id.viewPager);
-                if (viewPager != null) {
-                    java.util.List<androidx.fragment.app.Fragment> fragments = getSupportFragmentManager().getFragments();
-                    for (androidx.fragment.app.Fragment fragment : fragments) {
-                        if (fragment instanceof CommunityPostsFragment) {
-                            ((CommunityPostsFragment) fragment).refreshPosts();
-                            break;
-                        }
-                    }
-                }
+                notifyFragmentsStatusChanged();
             }
         }
         
         if (requestCode == 101 && resultCode == RESULT_OK) {
             boolean eventCreated = data != null && data.getBooleanExtra("eventCreated", false);
             if (eventCreated) {
-                androidx.viewpager2.widget.ViewPager2 viewPager = findViewById(R.id.viewPager);
-                if (viewPager != null) {
-                    androidx.viewpager2.adapter.FragmentStateAdapter adapter = 
-                        (androidx.viewpager2.adapter.FragmentStateAdapter) viewPager.getAdapter();
-                    if (adapter != null) {
-                        androidx.fragment.app.Fragment eventsFragment = adapter.createFragment(1);
-                        eventsFragment = getSupportFragmentManager().findFragmentByTag("f" + viewPager.getCurrentItem());
-                        
-                        java.util.List<androidx.fragment.app.Fragment> fragments = getSupportFragmentManager().getFragments();
-                        for (androidx.fragment.app.Fragment fragment : fragments) {
-                            if (fragment instanceof CommunityEventsFragment) {
-                                ((CommunityEventsFragment) fragment).refreshEvents();
-                                break;
-                            }
-                        }
-                    }
-                }
+                notifyFragmentsStatusChanged();
+            }
+        }
+    }
+
+    private void notifyFragmentsStatusChanged() {
+        List<androidx.fragment.app.Fragment> fragments = getSupportFragmentManager().getFragments();
+        for (androidx.fragment.app.Fragment fragment : fragments) {
+            if (fragment instanceof CommunityPostsFragment) {
+                ((CommunityPostsFragment) fragment).refreshPosts();
+                ((CommunityPostsFragment) fragment).refreshUserRole();
+            } else if (fragment instanceof CommunityMembersFragment) {
+                ((CommunityMembersFragment) fragment).refreshMembers();
+            } else if (fragment instanceof CommunityEventsFragment) {
+                ((CommunityEventsFragment) fragment).refreshEvents();
             }
         }
     }
 
     @Override
     public boolean onSupportNavigateUp() {
-        //closes activity if back arrow button presssed
         finish();
         return true;
     }

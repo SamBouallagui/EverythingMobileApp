@@ -9,6 +9,11 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 // Point d'entrée après que l'utilisateur se connecte
 public class MainActivity extends AppCompatActivity{
     
+    private HomeFragment homeFragment;
+    private ExploreFragment exploreFragment;
+    private ProfileFragment profileFragment;
+    private Fragment activeFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -16,28 +21,34 @@ public class MainActivity extends AppCompatActivity{
         
         BottomNavigationView bottomNav=findViewById(R.id.bottomNav);
         
-        // Commencer avec le fragment home par défaut
-        loadFragment(new HomeFragment());
-        //Gerer la navigation entre les fragments dans BottomNavigationView
+        // Initialize fragments
+        homeFragment = new HomeFragment();
+        exploreFragment = new ExploreFragment();
+        profileFragment = new ProfileFragment();
+        
+        activeFragment = homeFragment;
+        
+        // Setup initial fragments
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.fragmentContainer, profileFragment, "3").hide(profileFragment)
+                .add(R.id.fragmentContainer, exploreFragment, "2").hide(exploreFragment)
+                .add(R.id.fragmentContainer, homeFragment, "1")
+                .commit();
+
         bottomNav.setOnItemSelectedListener(item -> {
-            Fragment selected;
             int id=item.getItemId();
             
-            // Vérifier quel élément de navigation a été cliqué et charger le fragment correspondant
             if(id==R.id.nav_home){
-                selected=new HomeFragment();
+                getSupportFragmentManager().beginTransaction().hide(activeFragment).show(homeFragment).commit();
+                activeFragment = homeFragment;
             }else if(id==R.id.nav_explore){
-                selected=new ExploreFragment();
+                getSupportFragmentManager().beginTransaction().hide(activeFragment).show(exploreFragment).commit();
+                activeFragment = exploreFragment;
             }else {
-                selected=new ProfileFragment();
+                getSupportFragmentManager().beginTransaction().hide(activeFragment).show(profileFragment).commit();
+                activeFragment = profileFragment;
             }
-            loadFragment(selected);
             return true;
         });
-    }
-    
-    // Méthode helper pour charger les fragments dans le conteneur
-    private void loadFragment(Fragment fragment){
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,fragment).commit();
     }
 }

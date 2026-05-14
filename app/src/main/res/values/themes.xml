@@ -1,17 +1,79 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.Everything" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <!-- Primary brand colors -->
+        <item name="colorPrimary">@color/accent_primary</item>
+        <item name="colorOnPrimary">@color/text_on_accent</item>
+        <item name="colorPrimaryContainer">@color/accent_surface</item>
+        <item name="colorOnPrimaryContainer">@color/accent_light</item>
+
+        <!-- Secondary colors -->
+        <item name="colorSecondary">@color/accent_secondary</item>
+        <item name="colorOnSecondary">@color/text_on_accent</item>
+
+        <!-- Background & Surface -->
+        <item name="android:colorBackground">@color/bg_primary</item>
+        <item name="colorSurface">@color/bg_surface</item>
+        <item name="colorOnSurface">@color/text_primary</item>
+        <item name="colorSurfaceVariant">@color/bg_card</item>
+        <item name="colorOnSurfaceVariant">@color/text_secondary</item>
+
+        <!-- Status bar & Nav bar -->
+        <item name="android:statusBarColor">@color/bg_primary</item>
+        <item name="android:navigationBarColor">@color/bg_primary</item>
+        <item name="android:windowLightStatusBar">false</item>
+        
+        <!-- Typography -->
+        <item name="android:fontFamily">@font/inter</item>
+
+        <!-- Error -->
+        <item name="colorError">@color/status_error</item>
+
+        <!-- Outline -->
+        <item name="colorOutline">@color/input_stroke</item>
+
+        <!-- Activity transitions -->
+        <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
+        <item name="android:windowContentTransitions">true</item>
+        <item name="android:windowEnterTransition">@android:transition/fade</item>
+        <item name="android:windowExitTransition">@android:transition/fade</item>
     </style>
 
     <style name="Theme.Everything" parent="Base.Theme.Everything" />
-    
+
     <!-- Toolbar Style -->
     <style name="ToolbarStyle" parent="Widget.AppCompat.Toolbar">
-        <item name="android:background">#FFFFFF</item>
-        <item name="titleTextColor">#000000</item>
-        <item name="subtitleTextColor">#000000</item>
-        <item name="navigationIconTint">#000000</item>
+        <item name="android:background">@color/bg_secondary</item>
+        <item name="titleTextColor">@color/text_primary</item>
+        <item name="subtitleTextColor">@color/text_secondary</item>
+        <item name="navigationIconTint">@color/text_primary</item>
+    </style>
+
+    <!-- Activity transition animations -->
+    <style name="WindowAnimationTransition">
+        <item name="android:windowEnterAnimation">@anim/fade_in</item>
+        <item name="android:windowExitAnimation">@anim/fade_out</item>
+    </style>
+
+    <!-- Bottom Nav active indicator -->
+    <style name="BottomNavIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@color/nav_indicator</item>
+    </style>
+
+    <!-- Text Input style override for dark theme -->
+    <style name="DarkTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/input_stroke_focus</item>
+        <item name="boxBackgroundColor">@color/input_bg</item>
+        <item name="hintTextColor">@color/text_secondary</item>
+        <item name="android:textColorHint">@color/text_tertiary</item>
+        <item name="boxCornerRadiusTopStart">12dp</item>
+        <item name="boxCornerRadiusTopEnd">12dp</item>
+        <item name="boxCornerRadiusBottomStart">12dp</item>
+        <item name="boxCornerRadiusBottomEnd">12dp</item>
+    </style>
+    <!-- Shape appearance for circular icons -->
+    <style name="CircleAppearance" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
     </style>
 </resources>

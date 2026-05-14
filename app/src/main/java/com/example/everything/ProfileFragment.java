@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.ImageView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,6 +25,8 @@ public class ProfileFragment extends Fragment {
     private SessionManager sessionManager;
     private ApiService apiService;
 
+    private com.example.everything.views.CircularStatsView statsPosts, statsEvents, statsCommunities;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -33,6 +36,15 @@ public class ProfileFragment extends Fragment {
         
         sessionManager = new SessionManager(requireContext());
         apiService = ApiClient.getClient().create(ApiService.class);
+        
+        statsPosts = view.findViewById(R.id.statsPosts);
+        statsEvents = view.findViewById(R.id.statsEvents);
+        statsCommunities = view.findViewById(R.id.statsCommunities);
+        
+        // Customize progress colors
+        if (statsPosts != null) statsPosts.setProgressColor(Color.parseColor("#8B5CF6"));
+        if (statsEvents != null) statsEvents.setProgressColor(Color.parseColor("#6366F1"));
+        if (statsCommunities != null) statsCommunities.setProgressColor(Color.parseColor("#EC4899"));
         
         setupProfileInfo(view);
         loadProfileStats(view);
@@ -58,7 +70,6 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onResponse(retrofit2.Call<UserDto> call, retrofit2.Response<UserDto> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    UserDto user = response.body();
                     loadUserPostCount(view, currentUserId);
                     loadUserEventCount(view, currentUserId);
                 } else {
@@ -74,7 +85,6 @@ public class ProfileFragment extends Fragment {
     }
 
     private void loadUserPostCount(View view, int userId) {
-        
         apiService.getJoinedCommunities().enqueue(new retrofit2.Callback<List<com.example.everything.models.api.CommunityDto>>() {
             @Override
             public void onResponse(retrofit2.Call<List<com.example.everything.models.api.CommunityDto>> call, retrofit2.Response<List<com.example.everything.models.api.CommunityDto>> response) {
@@ -82,24 +92,23 @@ public class ProfileFragment extends Fragment {
                     List<com.example.everything.models.api.CommunityDto> communities = response.body();
                     countUserPostsFromCommunities(view, userId, communities);
                 } else {
-                    setPostCount(view, 0);
+                    setPostCount(0);
                 }
             }
 
             @Override
             public void onFailure(retrofit2.Call<List<com.example.everything.models.api.CommunityDto>> call, Throwable t) {
-                setPostCount(view, 0);
+                setPostCount(0);
             }
         });
     }
 
     private void countUserPostsFromCommunities(View view, int userId, List<com.example.everything.models.api.CommunityDto> communities) {
         if (communities.isEmpty()) {
-            setPostCount(view, 0);
+            setPostCount(0);
             return;
         }
 
-        // Count posts across all communities
         final int[] totalPostCount = {0};
         final int[] completedCalls = {0};
         
@@ -109,51 +118,37 @@ public class ProfileFragment extends Fragment {
                 public void onResponse(retrofit2.Call<List<com.example.everything.models.api.PostDto>> call, retrofit2.Response<List<com.example.everything.models.api.PostDto>> response) {
                     if (response.isSuccessful() && response.body() != null) {
                         List<com.example.everything.models.api.PostDto> posts = response.body();
-                        
-                        // Count posts by current user
-                        int userPostsInThisCommunity = 0;
                         for (com.example.everything.models.api.PostDto post : posts) {
                             if (post.getAuthorId() == userId) {
                                 totalPostCount[0]++;
-                                userPostsInThisCommunity++;
                             }
                         }
-                    } else {
                     }
-                    
                     completedCalls[0]++;
-                    
                     if (completedCalls[0] == communities.size()) {
-                        setPostCount(view, totalPostCount[0]);
+                        setPostCount(totalPostCount[0]);
                     }
                 }
 
                 @Override
                 public void onFailure(retrofit2.Call<List<com.example.everything.models.api.PostDto>> call, Throwable t) {
-                        
                     completedCalls[0]++;
                     if (completedCalls[0] == communities.size()) {
-                        setPostCount(view, totalPostCount[0]);
+                        setPostCount(totalPostCount[0]);
                     }
                 }
             });
         }
     }
 
-    private void setPostCount(View view, int count) {
-        TextView tvPostCount = view.findViewById(R.id.tvPostCount);
-        if (android.os.Looper.myLooper() == android.os.Looper.getMainLooper()) {
-            tvPostCount.setText(String.valueOf(count));
-        } else {
-            new android.os.Handler(android.os.Looper.getMainLooper()).post(() -> {
-                tvPostCount.setText(String.valueOf(count));
-            });
+    private void setPostCount(int count) {
+        if (statsPosts != null) {
+            float progress = count / 10f; // Assume 10 is goal
+            statsPosts.setProgress(progress, String.valueOf(count), "Posts");
         }
     }
 
     private void loadUserEventCount(View view, int userId) {
-        
-
         apiService.getJoinedCommunities().enqueue(new retrofit2.Callback<List<com.example.everything.models.api.CommunityDto>>() {
             @Override
             public void onResponse(retrofit2.Call<List<com.example.everything.models.api.CommunityDto>> call, retrofit2.Response<List<com.example.everything.models.api.CommunityDto>> response) {
@@ -161,73 +156,59 @@ public class ProfileFragment extends Fragment {
                     List<com.example.everything.models.api.CommunityDto> communities = response.body();
                     countUserEventsFromCommunities(view, userId, communities);
                 } else {
-                    setEventCount(view, 0);
+                    setEventCount(0);
                 }
             }
 
             @Override
             public void onFailure(retrofit2.Call<List<com.example.everything.models.api.CommunityDto>> call, Throwable t) {
-                setEventCount(view, 0);
+                setEventCount(0);
             }
         });
     }
 
     private void countUserEventsFromCommunities(View view, int userId, List<com.example.everything.models.api.CommunityDto> communities) {
         if (communities.isEmpty()) {
-            setEventCount(view, 0);
+            setEventCount(0);
             return;
         }
 
         final int[] totalEventCount = {0};
         final int[] completedCalls = {0};
         
-        
         for (com.example.everything.models.api.CommunityDto community : communities) {
-            
             apiService.getCommunityEvents(community.getId()).enqueue(new retrofit2.Callback<List<com.example.everything.models.api.EventDto>>() {
                 @Override
                 public void onResponse(retrofit2.Call<List<com.example.everything.models.api.EventDto>> call, retrofit2.Response<List<com.example.everything.models.api.EventDto>> response) {
                     if (response.isSuccessful() && response.body() != null) {
                         List<com.example.everything.models.api.EventDto> events = response.body();
-                        
-                        // Count events created by current user
-                        int userEventsInThisCommunity = 0;
                         for (com.example.everything.models.api.EventDto event : events) {
                             if (event.getCreatedByUsername().equals(sessionManager.getUsername())) {
                                 totalEventCount[0]++;
-                                userEventsInThisCommunity++;
                             }
                         }
-                    } else {
-                        }
-                    
+                    }
                     completedCalls[0]++;
-                    
                     if (completedCalls[0] == communities.size()) {
-                        setEventCount(view, totalEventCount[0]);
+                        setEventCount(totalEventCount[0]);
                     }
                 }
 
                 @Override
                 public void onFailure(retrofit2.Call<List<com.example.everything.models.api.EventDto>> call, Throwable t) {
-                        
                     completedCalls[0]++;
                     if (completedCalls[0] == communities.size()) {
-                        setEventCount(view, totalEventCount[0]);
+                        setEventCount(totalEventCount[0]);
                     }
                 }
             });
         }
     }
 
-    private void setEventCount(View view, int count) {
-        TextView tvEventCount = view.findViewById(R.id.tvEventCount);
-        if (android.os.Looper.myLooper() == android.os.Looper.getMainLooper()) {
-            tvEventCount.setText(String.valueOf(count));
-        } else {
-            new android.os.Handler(android.os.Looper.getMainLooper()).post(() -> {
-                tvEventCount.setText(String.valueOf(count));
-            });
+    private void setEventCount(int count) {
+        if (statsEvents != null) {
+            float progress = count / 5f; // Assume 5 is goal
+            statsEvents.setProgress(progress, String.valueOf(count), "Events");
         }
     }
 
@@ -251,48 +232,32 @@ public class ProfileFragment extends Fragment {
     private void displayCommunities(View view, List<CommunityDto> communities) {
         LinearLayout llCommunities = view.findViewById(R.id.llProfileCommunities);
         
-        // Update community count
-        TextView tvCommunityCount = view.findViewById(R.id.tvCommunityCount);
-        tvCommunityCount.setText(String.valueOf(communities.size()));
+        if (statsCommunities != null) {
+            float progress = communities.size() / 10f; // Assume 10 is goal
+            statsCommunities.setProgress(progress, String.valueOf(communities.size()), "Communities");
+        }
         
         llCommunities.removeAllViews();
-        
         for (CommunityDto dto : communities) {
             Community community = new Community(dto);
-            
             View row = buildCommunityRow(community);
             llCommunities.addView(row);
         }
     }
 
     private View buildCommunityRow(Community community) {
-        LinearLayout row = new LinearLayout(getContext());
-        row.setOrientation(LinearLayout.HORIZONTAL);
-        row.setGravity(Gravity.CENTER_VERTICAL);
-        row.setPadding(32, 24, 32, 24);
-        row.setBackgroundColor(Color.parseColor("#16213E"));
+        View row = LayoutInflater.from(getContext()).inflate(R.layout.item_profile_community, null);
+        
+        TextView tvName = row.findViewById(R.id.tvProfileCommunityName);
+        TextView tvCategory = row.findViewById(R.id.tvProfileCommunityCategory);
+        ImageView ivIcon = row.findViewById(R.id.ivProfileCommunityIcon);
 
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
-        params.setMargins(0, 0, 0, 4);
-        row.setLayoutParams(params);
-
-        TextView tvName = new TextView(getContext());
-        LinearLayout.LayoutParams nameParams = new LinearLayout.LayoutParams(
-                0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
-        tvName.setLayoutParams(nameParams);
         tvName.setText(community.getName());
-        tvName.setTextColor(Color.WHITE);
-        tvName.setTextSize(15);
-
-        TextView tvCategory = new TextView(getContext());
         tvCategory.setText(community.getCategory());
-        tvCategory.setTextColor(Color.parseColor("#7B61FF"));
-        tvCategory.setTextSize(13);
-
-        row.addView(tvName);
-        row.addView(tvCategory);
+        
+        // Apply theme icon
+        CommunityTheme theme = CommunityVisualStore.getThemeForCommunity(community.getId());
+        ivIcon.setImageResource(theme.getIconResId());
 
         row.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), CommunityDetailActivity.class);
@@ -304,18 +269,14 @@ public class ProfileFragment extends Fragment {
     }
 
     private void setupSettings(View view) {
-
         view.findViewById(R.id.llLogout).setOnClickListener(v -> {
             new AlertDialog.Builder(requireContext())
                     .setTitle("Log Out")
                     .setMessage("Are you sure you want to log out?")
                     .setPositiveButton("Log Out", (dialog, which) -> {
-                        // clear saved session
                         sessionManager.logout();
-
                         Intent intent = new Intent(getActivity(), AuthActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
-                                Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                     })
                     .setNegativeButton("Cancel", null)

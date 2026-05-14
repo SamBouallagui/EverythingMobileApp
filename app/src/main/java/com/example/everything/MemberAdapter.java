@@ -53,15 +53,25 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.MemberView
         Member member=memberList.get(position);
         holder.tvName.setText(member.getName());
         holder.tvJoinDate.setText("Joined " + member.getJoinDate());
+        
+        // Set initial letter for avatar
+        String name = member.getName();
+        if (holder.tvMemberInitial != null && name != null && !name.isEmpty()) {
+            holder.tvMemberInitial.setText(String.valueOf(name.charAt(0)).toUpperCase());
+        }
         String role = member.getRole();
-        //role badge visible only to adminn and mod
+        //role badge visible only to admin and mod
         if (role.equals("moderator") || role.equals("admin")) {
             holder.tvRoleBadge.setVisibility(View.VISIBLE);
-            holder.tvRoleBadge.setText(role.equals("admin") ? "ADMIN" : "MOD");
-            holder.tvRoleBadge.setBackgroundColor(
-                    role.equals("admin")
-                            ? Color.parseColor("#FF6B35")
-                            : Color.parseColor("#7B61FF"));
+            if (role.equals("admin")) {
+                holder.tvRoleBadge.setText("ADMIN");
+                holder.tvRoleBadge.setBackgroundResource(R.drawable.bg_badge_admin);
+                holder.tvRoleBadge.setTextColor(android.graphics.Color.parseColor("#FDBA74"));
+            } else {
+                holder.tvRoleBadge.setText("MOD");
+                holder.tvRoleBadge.setBackgroundResource(R.drawable.bg_badge_mod);
+                holder.tvRoleBadge.setTextColor(android.graphics.Color.parseColor("#C4B5FD"));
+            }
         } else {
             holder.tvRoleBadge.setVisibility(View.GONE);
         }
@@ -87,8 +97,7 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.MemberView
         return memberList.size();
     }
     public static class MemberViewHolder extends RecyclerView.ViewHolder{
-        TextView tvName, tvRoleBadge, tvJoinDate;
-        ImageView ivAvatar;
+        TextView tvName, tvRoleBadge, tvJoinDate, tvMemberInitial;
         Button btnManage;
 
         public MemberViewHolder(@NonNull View itemView) {
@@ -96,7 +105,7 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.MemberView
             tvName = itemView.findViewById(R.id.tvMemberName);
             tvRoleBadge = itemView.findViewById(R.id.tvMemberRoleBadge);
             tvJoinDate = itemView.findViewById(R.id.tvJoinDate);
-            ivAvatar = itemView.findViewById(R.id.ivMemberAvatar);
+            tvMemberInitial = itemView.findViewById(R.id.tvMemberInitial);
             btnManage = itemView.findViewById(R.id.btnManage);
         }
     }

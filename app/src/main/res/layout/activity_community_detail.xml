@@ -1,157 +1,152 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8F9FA">
+    android:background="@color/bg_primary">
 
-    <!-- App Bar with Community Info -->
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/appBarLayout"
-        android:background="#FFFFFF"
-        app:elevation="8dp">
+        android:background="@color/bg_secondary"
+        app:elevation="0dp">
 
-        <!-- Toolbar -->
+        <!-- Fixed Toolbar -->
         <androidx.appcompat.widget.Toolbar
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
             android:id="@+id/toolbar"
             style="@style/ToolbarStyle"
-            app:titleTextColor="#1A1A1A"/>
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:titleTextColor="@color/text_primary"
+            app:layout_scrollFlags="noScroll" />
 
-        <!-- Community Details Card -->
+        <!-- Community Info Header -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="20dp">
+            android:paddingHorizontal="20dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="20dp"
+            app:layout_scrollFlags="noScroll">
 
-            <!-- Category Badge -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/tvDetailCategory"
-                android:text="Category"
-                android:textColor="#7B61FF"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                android:background="#E8EAF6"
-                android:paddingHorizontal="12dp"
-                android:paddingVertical="4dp"/>
-
-            <!-- Community Name (if needed) -->
-            <TextView
-                android:id="@+id/tvDetailName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Community Name"
-                android:textColor="#1A1A1A"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:layout_marginTop="8dp"
-                android:maxLines="1"
-                android:ellipsize="end"/>
-
-            <!-- Description -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/tvDetailDescription"
-                android:text="Community description goes here"
-                android:textColor="#4B5563"
-                android:textSize="14sp"
-                android:layout_marginTop="12dp"
-                android:lineSpacingMultiplier="1.3"/>
-
-            <!-- Stats and Join Section -->
+            <!-- Category + Member Count row -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:layout_marginTop="16dp">
+                android:layout_marginBottom="12dp">
 
-                <!-- Member Count with Icon -->
-                <LinearLayout
-                    android:layout_width="0dp"
+                <TextView
+                    android:id="@+id/tvDetailCategory"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:background="@drawable/bg_category_badge"
+                    android:paddingHorizontal="14dp"
+                    android:paddingVertical="6dp"
+                    android:text="Category"
+                    android:textColor="@color/accent_light"
+                    android:textSize="11sp"
+                    android:textStyle="bold"
+                    android:textAllCaps="true"
+                    android:letterSpacing="0.08" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:gravity="center_vertical">
+                    android:gravity="center_vertical"
+                    android:background="@drawable/bg_stat_card"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="6dp">
 
                     <ImageView
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
+                        android:layout_width="14dp"
+                        android:layout_height="14dp"
                         android:src="@android:drawable/ic_menu_myplaces"
-                        android:backgroundTint="#6B7280"
-                        android:layout_marginEnd="6dp"/>
+                        android:layout_marginEnd="6dp"
+                        app:tint="@color/text_tertiary" />
 
                     <TextView
                         android:id="@+id/tvDetailMemberCount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0 members"
-                        android:textColor="#6B7280"
-                        android:textSize="13sp"/>
-
+                        android:textColor="@color/text_secondary"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
-
-                <!-- Join Button -->
-                <Button
-                    android:id="@+id/btnDetailJoin"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:text="Join"
-                    android:textSize="14sp"
-                    android:textColor="#FFFFFF"
-                    android:backgroundTint="#7B61FF"
-                    app:cornerRadius="20dp"
-                    android:paddingHorizontal="24dp"/>
-
             </LinearLayout>
 
+            <!-- Description -->
+            <TextView
+                android:id="@+id/tvDetailDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Description"
+                android:textColor="@color/text_secondary"
+                android:textSize="14sp"
+                android:lineSpacingMultiplier="1.5"
+                android:layout_marginBottom="20dp" />
+
+            <!-- Join Button -->
+            <Button
+                android:id="@+id/btnDetailJoin"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:text="Join Community"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_on_accent"
+                android:background="@drawable/bg_button_gradient"
+                android:stateListAnimator="@null"
+                android:letterSpacing="0.04" />
         </LinearLayout>
 
-        <!-- Tabs -->
+        <!-- Tab Bar -->
         <com.google.android.material.tabs.TabLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/tabLayout"
-            android:background="#FFFFFF"
-            android:paddingTop="8dp"
-            app:tabTextColor="#6B7280"
-            app:tabSelectedTextColor="#7B61FF"
-            app:tabIndicatorColor="#7B61FF"
-            app:tabTextAppearance="@style/TextAppearance.Design.Tab"
-            app:tabGravity="center"/>
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:background="@color/bg_primary"
+            app:tabTextColor="@color/text_tertiary"
+            app:tabSelectedTextColor="@color/accent_light"
+            app:tabIndicatorColor="@color/accent_primary"
+            app:tabIndicatorHeight="3dp"
+            app:tabIndicatorFullWidth="false"
+            app:tabRippleColor="@color/ripple_color"
+            app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
+            app:layout_scrollFlags="noScroll" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <!-- Content ViewPager -->
     <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/viewPager"
-        android:background="#FFFFFF"
-        android:layout_marginTop="8dp"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-    <!-- Floating Action Button -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabCreatePost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_margin="20dp"
-        android:src="@android:drawable/ic_input_add"
-        app:backgroundTint="#7B61FF"
-        app:tint="#FFFFFF"
+        android:layout_margin="24dp"
+        app:srcCompat="@android:drawable/ic_menu_edit"
+        app:tint="@color/text_on_accent"
+        app:backgroundTint="@color/accent_primary"
+        app:rippleColor="@color/ripple_color"
+        app:borderWidth="0dp"
         app:elevation="8dp"
-        android:visibility="gone"/>
+        app:pressedTranslationZ="12dp"
+        android:visibility="gone" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-

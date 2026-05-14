@@ -55,14 +55,26 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         holder.tvAuthorName.setText(comment.getAuthorName());
         holder.tvContent.setText(comment.getContent());
         holder.tvTimeAgo.setText(comment.getTimeAgo());
+        
+        // Set initial letter for avatar
+        String name = comment.getAuthorName();
+        if (holder.tvAuthorInitial != null && name != null && !name.isEmpty()) {
+            holder.tvAuthorInitial.setText(String.valueOf(name.charAt(0)).toUpperCase());
+        }
 
         // Afficher un badge spécial pour les modérateurs et admins 
         String role = comment.getAuthorRole();
         if (role != null && (role.equals("moderator") || role.equals("admin"))) {
             holder.tvRoleBadge.setVisibility(View.VISIBLE);
-            holder.tvRoleBadge.setText(role.equals("admin") ? "ADMIN" : "MOD");
-            // Couleurs différentes pour admin vs mod
-            holder.tvRoleBadge.setBackgroundColor(role.equals("admin") ? Color.parseColor("#FF6B35") : Color.parseColor("#7B61FF"));
+            if (role.equals("admin")) {
+                holder.tvRoleBadge.setText("ADMIN");
+                holder.tvRoleBadge.setBackgroundResource(R.drawable.bg_badge_admin);
+                holder.tvRoleBadge.setTextColor(Color.parseColor("#FDBA74"));
+            } else {
+                holder.tvRoleBadge.setText("MOD");
+                holder.tvRoleBadge.setBackgroundResource(R.drawable.bg_badge_mod);
+                holder.tvRoleBadge.setTextColor(Color.parseColor("#C4B5FD"));
+            }
         } else {
             holder.tvRoleBadge.setVisibility(View.GONE);
         }
@@ -108,13 +120,14 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
     // Classe ViewHolder pour contenir les vues des éléments de commentaire
     public static class CommentViewHolder extends RecyclerView.ViewHolder {
-        TextView tvAuthorName, tvContent, tvTimeAgo, tvRoleBadge;
+        TextView tvAuthorName, tvAuthorInitial, tvContent, tvTimeAgo, tvRoleBadge;
         View btnEdit, btnDelete;
 
         // Trouver toutes les vues pour l'élément de commentaire
         public CommentViewHolder(@NonNull View itemView) {
             super(itemView);
             tvAuthorName = itemView.findViewById(R.id.tvCommentAuthor);
+            tvAuthorInitial = itemView.findViewById(R.id.tvCommentAuthorInitial);
             tvContent = itemView.findViewById(R.id.tvCommentContent);
             tvTimeAgo = itemView.findViewById(R.id.tvCommentTime);
             tvRoleBadge = itemView.findViewById(R.id.tvCommentRoleBadge);

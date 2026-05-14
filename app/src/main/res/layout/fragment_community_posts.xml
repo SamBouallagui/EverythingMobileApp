@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8F9FA">
+    android:background="@color/bg_primary">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvPosts"
@@ -12,19 +12,44 @@
         android:layout_height="match_parent"
         android:clipToPadding="false"
         android:paddingTop="8dp"
-        android:paddingBottom="80dp"/>
-        
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/fabCreatePost"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="20dp"
-        android:src="@android:drawable/ic_input_add"
-        android:contentDescription="Create Post"
-        app:backgroundTint="#7B61FF"
-        app:tint="#FFFFFF"
-        app:elevation="8dp"
-        android:visibility="gone"/>
+        android:paddingBottom="100dp"
+        android:layoutAnimation="@anim/layout_animation_fall_down" />
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    <!-- Empty state -->
+    <LinearLayout
+        android:id="@+id/layoutEmptyPosts"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="40dp"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:src="@android:drawable/ic_menu_edit"
+            android:alpha="0.3"
+            app:tint="@color/accent_light" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="No posts yet"
+            android:textColor="@color/text_primary"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Be the first to share something with this community"
+            android:textColor="@color/text_tertiary"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:lineSpacingMultiplier="1.4" />
+    </LinearLayout>
+
+</FrameLayout>

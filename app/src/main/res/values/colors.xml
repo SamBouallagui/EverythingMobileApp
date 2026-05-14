@@ -1,5 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Legacy -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- ═══ Dark Theme Palette ═══ -->
+
+    <!-- Backgrounds (rich deep tones) -->
+    <color name="bg_primary">#080B12</color>
+    <color name="bg_secondary">#0F1520</color>
+    <color name="bg_surface">#141C2B</color>
+    <color name="bg_card">#1A2332</color>
+    <color name="bg_elevated">#1F2B3D</color>
+    <color name="bg_header">#0C1018</color>
+
+    <!-- Accent colors (vibrant purple-violet-blue) -->
+    <color name="accent_primary">#8B5CF6</color>
+    <color name="accent_secondary">#6366F1</color>
+    <color name="accent_tertiary">#3B82F6</color>
+    <color name="accent_light">#C4B5FD</color>
+    <color name="accent_glow">#A78BFA</color>
+    <color name="accent_surface">#1E1B4B</color>
+    <color name="accent_surface_light">#2E1065</color>
+
+    <!-- Gradient endpoints -->
+    <color name="gradient_start">#8B5CF6</color>
+    <color name="gradient_mid">#7C3AED</color>
+    <color name="gradient_end">#3B82F6</color>
+    <color name="gradient_warm_start">#F472B6</color>
+    <color name="gradient_warm_end">#8B5CF6</color>
+
+    <!-- ═══ Niche Specific Gradients ═══ -->
+    <color name="niche_gaming_start">#F43F5E</color>
+    <color name="niche_gaming_end">#FB923C</color>
+    
+    <color name="niche_hiking_start">#10B981</color>
+    <color name="niche_hiking_end">#3B82F6</color>
+    
+    <color name="niche_coding_start">#06B6D4</color>
+    <color name="niche_coding_end">#8B5CF6</color>
+    
+    <color name="niche_music_start">#C026D3</color>
+    <color name="niche_music_end">#4F46E5</color>
+    
+    <color name="niche_art_start">#EC4899</color>
+    <color name="niche_art_end">#F59E0B</color>
+    
+    <color name="niche_science_start">#6366F1</color>
+    <color name="niche_science_end">#14B8A6</color>
+    
+    <color name="niche_food_start">#F97316</color>
+    <color name="niche_food_end">#EF4444</color>
+    
+    <color name="niche_sports_start">#3B82F6</color>
+    <color name="niche_sports_end">#60A5FA</color>
+    
+    <color name="niche_travel_start">#0EA5E9</color>
+    <color name="niche_travel_end">#F472B6</color>
+    
+    <color name="niche_movie_start">#881337</color>
+    <color name="niche_movie_end">#FB7185</color>
+
+    <!-- Text colors -->
+    <color name="text_primary">#F1F5F9</color>
+    <color name="text_secondary">#94A3B8</color>
+    <color name="text_tertiary">#64748B</color>
+    <color name="text_accent">#C4B5FD</color>
+    <color name="text_on_accent">#FFFFFF</color>
+    <color name="text_heading">#E2E8F0</color>
+
+    <!-- Status / Semantic -->
+    <color name="status_success">#34D399</color>
+    <color name="status_success_bg">#064E3B</color>
+    <color name="status_error">#FB7185</color>
+    <color name="status_error_bg">#4C0519</color>
+    <color name="status_warning">#FBBF24</color>
+    <color name="status_info">#38BDF8</color>
+
+    <!-- Glass / Overlay -->
+    <color name="glass_bg">#1A1A2332</color>
+    <color name="glass_border">#20C4B5FD</color>
+    <color name="glass_border_subtle">#128B949E</color>
+    <color name="glass_border_accent">#308B5CF6</color>
+    <color name="ripple_color">#268B5CF6</color>
+    <color name="card_highlight">#0D8B5CF6</color>
+
+    <!-- Divider -->
+    <color name="divider">#0F94A3B8</color>
+    <color name="divider_accent">#208B5CF6</color>
+
+    <!-- Input fields -->
+    <color name="input_bg">#0F1520</color>
+    <color name="input_stroke">#1E293B</color>
+    <color name="input_stroke_focus">#8B5CF6</color>
+
+    <!-- Bottom nav -->
+    <color name="nav_bg">#080B12</color>
+    <color name="nav_indicator">#1E1B4B</color>
+    <color name="nav_active">#C4B5FD</color>
+    <color name="nav_inactive">#475569</color>
+
+    <!-- Badge colors -->
+    <color name="badge_admin_bg">#7C2D12</color>
+    <color name="badge_admin_text">#FDBA74</color>
+    <color name="badge_mod_bg">#2E1065</color>
+    <color name="badge_mod_text">#C4B5FD</color>
+    <color name="badge_creator_bg">#064E3B</color>
+    <color name="badge_creator_text">#6EE7B7</color>
+
+    <!-- Joined / Secondary button -->
+    <color name="btn_joined_bg">#1E1B4B</color>
+    <color name="btn_joined_text">#C4B5FD</color>
+    <color name="btn_primary_start">#8B5CF6</color>
+    <color name="btn_primary_end">#3B82F6</color>
+
+    <!-- Premium Glow Tokens -->
+    <color name="premium_glow">#408B5CF6</color>
+    <color name="premium_border">#30FFFFFF</color>
+    <color name="premium_bg_start">#26141C2B</color>
+    <color name="premium_bg_end">#0D080B12</color>
+
+    <!-- Shadows & highlights -->
+    <color name="shadow_purple">#408B5CF6</color>
+    <color name="glow_purple">#1A8B5CF6</color>
 </resources>
